@@ -4,7 +4,6 @@ var hashmap = require('hashmap');
 var config = require('config');
 var path = require('path');
 var bodyParser = require('body-parser');
-const readline = require('readline');
 
 var app = express();
 var map = new hashmap();
@@ -16,14 +15,9 @@ app.use(express.static(__dirname + '/public'));
 
 var cseURL = "http://"+config.cse.ip+":"+config.cse.port;
 var cseRelease = config.cse.release;
-var deviceTypes = new hashmap();
 var templates = config.templates;
 var acpi = {};
 var requestNr = 0;
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});							
 
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname+'/index.html'));
@@ -79,7 +73,7 @@ app.listen(config.app.port, function () {
 })
 
 function listen(name,typeIndex){
-	app.post('/S'+name, function (req, res) {
+	app.post('/C'+name, function (req, res) {
 
 		var req_body = req.body["m2m:sgn"].nev.rep["m2m:cin"];
 		if(req_body != undefined) {
